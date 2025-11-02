@@ -25,7 +25,7 @@ export function LavaWall({ lampCount = 5 }) {
     const buf = entropyRef.current;
     buf.push(...chunk);
     if (buf.length > 1000) buf.splice(0, buf.length - 1000);
-    
+
     entropyCountSinceLastUpdate.current += chunk.length;
     setTotalEntropy(buf.length);
   }
@@ -48,12 +48,12 @@ export function LavaWall({ lampCount = 5 }) {
       alert("⚠️ Insuficientă entropie! Așteaptă câteva secunde pentru ca lava lampurile să genereze mai multe date caotice...");
       return;
     }
-    
+
     setIsGenerating(true);
-    
+
     // Simulate processing time for better UX
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     const joined = entropyRef.current.join("-");
     const hash = await sha256(joined);
     setEntropyKey(hash);
@@ -68,24 +68,24 @@ export function LavaWall({ lampCount = 5 }) {
   }
 
   // Generate random hues for lamps
-  const lampHues = Array.from({ length: lampCount }).map((_, i) => 
+  const lampHues = Array.from({ length: lampCount }).map((_, i) =>
     180 + (i * 40) % 180
   );
 
   const lamps = lampHues.map((hue, i) => (
     <div key={i} className="transform hover:scale-105 transition-transform duration-300">
-      <LavaLamp 
-        seed={Math.random() * 10000} 
-        hue={hue} 
-        onEntropy={handleEntropy} 
+      <LavaLamp
+        seed={Math.random() * 10000}
+        hue={hue}
+        onEntropy={handleEntropy}
       />
     </div>
   ));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 p-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-purple-900 to-gray-900 p-8">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -101,7 +101,7 @@ export function LavaWall({ lampCount = 5 }) {
 
         {/* Stats Panel */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-sm p-6 rounded-2xl border border-blue-400/30">
+          <div className="bg-linear-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-sm p-6 rounded-2xl border border-blue-400/30">
             <div className="flex items-center gap-3 mb-2">
               <Activity className="w-8 h-8 text-blue-400" />
               <h3 className="text-lg font-semibold text-white">Rata Entropie</h3>
@@ -109,7 +109,7 @@ export function LavaWall({ lampCount = 5 }) {
             <p className="text-3xl font-bold text-blue-300">{entropyRate} bytes/s</p>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm p-6 rounded-2xl border border-purple-400/30">
+          <div className="bg-linear-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm p-6 rounded-2xl border border-purple-400/30">
             <div className="flex items-center gap-3 mb-2">
               <Lock className="w-8 h-8 text-purple-400" />
               <h3 className="text-lg font-semibold text-white">Buffer Entropie</h3>
@@ -117,7 +117,7 @@ export function LavaWall({ lampCount = 5 }) {
             <p className="text-3xl font-bold text-purple-300">{totalEntropy} bytes</p>
           </div>
 
-          <div className="bg-gradient-to-br from-green-600/20 to-emerald-600/20 backdrop-blur-sm p-6 rounded-2xl border border-green-400/30">
+          <div className="bg-linear-to-brrom-green-600/20 to-emerald-600/20 backdrop-blur-sm p-6 rounded-2xl border border-green-400/30">
             <div className="flex items-center gap-3 mb-2">
               <Key className="w-8 h-8 text-green-400" />
               <h3 className="text-lg font-semibold text-white">Status</h3>
@@ -136,7 +136,7 @@ export function LavaWall({ lampCount = 5 }) {
         </div>
 
         {/* Key Generation Panel */}
-        <div className="bg-gradient-to-br from-purple-900/40 to-blue-900/40 backdrop-blur-sm rounded-3xl p-8 border border-purple-400/30 shadow-2xl">
+        <div className="bg-linear-to-br from-purple-900/40 to-blue-900/40 backdrop-blur-sm rounded-3xl p-8 border border-purple-400/30 shadow-2xl">
           <div className="flex items-center gap-3 mb-6">
             <Key className="w-8 h-8 text-yellow-400" />
             <h2 className="text-3xl font-bold text-white">Cheie Criptografică SHA-256</h2>
@@ -153,7 +153,7 @@ export function LavaWall({ lampCount = 5 }) {
               </p>
             </div>
           ) : (
-            <div className="bg-gradient-to-br from-green-900/30 to-blue-900/30 rounded-xl p-6 border border-green-500/50">
+            <div className="bg-linear-to-br from-green-900/30 to-blue-900/30 rounded-xl p-6 border border-green-500/50">
               <p className="text-sm font-semibold text-green-300 mb-3">🔐 Hash SHA-256 generat:</p>
               <div className="bg-black/70 p-4 rounded-lg font-mono text-sm text-green-400 break-all leading-relaxed shadow-inner">
                 {entropyKey}
@@ -174,7 +174,7 @@ export function LavaWall({ lampCount = 5 }) {
                 transition-all duration-300 transform
                 ${isGenerating || totalEntropy < 50
                   ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50'
+                  : 'bg-linear-to-r from-blue-600 to-purple-600 text-white hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50'
                 }
               `}
             >
@@ -194,7 +194,7 @@ export function LavaWall({ lampCount = 5 }) {
             <button
               onClick={resetKey}
               className="flex items-center gap-3 px-8 py-4 rounded-xl font-bold text-lg
-                       bg-gradient-to-r from-gray-700 to-gray-800 text-white
+                       bg-linear-to-r from-gray-700 to-gray-800 text-white
                        hover:from-gray-600 hover:to-gray-700 transition-all duration-300
                        transform hover:scale-105"
             >
@@ -206,8 +206,8 @@ export function LavaWall({ lampCount = 5 }) {
           {/* Info Box */}
           <div className="mt-8 bg-blue-900/20 border border-blue-400/30 rounded-xl p-6">
             <p className="text-sm text-blue-200 leading-relaxed">
-              <strong className="text-blue-300">💡 Cum funcționează:</strong> Fiecare lava lampă generează date imprevizibile 
-              din mișcarea caotică a blob-urilor (poziție, viteză, temperatură). Aceste date sunt colectate continuu 
+              <strong className="text-blue-300">💡 Cum funcționează:</strong> Fiecare lava lampă generează date imprevizibile
+              din mișcarea caotică a blob-urilor (poziție, viteză, temperatură). Aceste date sunt colectate continuu
               și folosite pentru a genera hash-uri SHA-256 securizate - exact ca sistemul Cloudflare.
             </p>
           </div>

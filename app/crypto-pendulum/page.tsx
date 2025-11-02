@@ -26,7 +26,7 @@ export default function CryptoPendulumPage() {
       const key = await entropyCollector.current.generateKey(keyLength);
       setGeneratedKeys((prev) => [key, ...prev].slice(0, 10));
     } catch (error) {
-      alert(error instanceof Error ? error.message : "Generation failed");
+      alert(error instanceof Error ? error.message : "Generarea a eșuat");
     } finally {
       setIsGenerating(false);
     }
@@ -35,10 +35,10 @@ export default function CryptoPendulumPage() {
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopyStatus("Copied!");
+      setCopyStatus("Copiat!");
       setTimeout(() => setCopyStatus(null), 2000);
     } catch (error) {
-      setCopyStatus("Failed to copy");
+      setCopyStatus("Eroare la copiere");
     }
   };
 
@@ -54,93 +54,92 @@ export default function CryptoPendulumPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `crypto-keys-${Date.now()}.txt`;
+    a.download = `chei-crypto-${Date.now()}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950 to-gray-900 text-white p-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-950 via-purple-950 to-gray-900 text-white p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-            🎭 Chaotic Pendulum Crypto Generator
+          <h1 className="text-5xl font-bold mb-3 bg-linear-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+            🎭 Generator Cripto cu Pendul Caotic
           </h1>
           <p className="text-gray-400 text-lg">
-            Harness the power of chaos theory for truly random cryptographic keys
+            Valorifică puterea teoriei haosului pentru chei criptografice cu adevărat aleatoare
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          {/* Left: Pendulum */}
+          {/* Stânga: Pendul */}
           <div className="space-y-6">
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
               <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <span className="text-3xl">⚡</span>
-                Double Pendulum
+                Pendul Dublu
               </h2>
               <DoublePendulum onEntropy={handleEntropy} isActive={true} />
             </div>
 
             {/* Info */}
-            <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
+            <div className="bg-linear-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-sm rounded-xl p-6 border border-purple-500/30">
               <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
                 <span>🔬</span>
-                How it works
+                Cum funcționează
               </h3>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li className="flex items-start gap-2">
                   <span className="text-purple-400">•</span>
                   <span>
-                    Double pendulum exhibits <strong>chaotic behavior</strong> - tiny
-                    changes lead to completely different outcomes
+                    Pendulul dublu prezintă <strong>comportament haotic</strong> - modificări minuscule duc la rezultate complet diferite
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purple-400">•</span>
                   <span>
-                    Position, velocity, and angles are sampled at high frequency
+                    Poziția, viteza și unghiurile sunt eșantionate la frecvență înaltă
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purple-400">•</span>
                   <span>
-                    Combined with mouse movements and system entropy via SHA-256
+                    Combinat cu mișcările mouse-ului și entropie de sistem via SHA-256
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purple-400">•</span>
                   <span>
-                    Result: cryptographically secure random keys
+                    Rezultat: chei aleatoare sigure criptografic
                   </span>
                 </li>
               </ul>
             </div>
           </div>
 
-          {/* Right: Controls & Output */}
+          {/* Dreapta: Controale & Output */}
           <div className="space-y-6">
-            {/* Entropy Display */}
+            {/* Afișare Entropie */}
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
               <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <span className="text-3xl">📊</span>
-                Entropy Pool
+                Pool de Entropie
               </h2>
               <EntropyVisualizer entropyLevel={entropyLevel} poolStats={poolStats} />
             </div>
 
-            {/* Controls */}
+            {/* Controale */}
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
               <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <span className="text-3xl">⚙️</span>
-                Key Generator
+                Generator de Chei
               </h2>
 
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    Key Length (bytes)
+                    Lungime Cheie (bytes)
                   </label>
                   <div className="flex items-center gap-4">
                     <input
@@ -157,7 +156,7 @@ export default function CryptoPendulumPage() {
                     </span>
                   </div>
                   <div className="text-xs text-gray-400 mt-1">
-                    {keyLength * 8} bits = {keyLength * 2} hex characters
+                    {keyLength * 8} biți = {keyLength * 2} caractere hex
                   </div>
                 </div>
 
@@ -165,7 +164,7 @@ export default function CryptoPendulumPage() {
                   <button
                     onClick={generateKey}
                     disabled={isGenerating || entropyLevel < 25}
-                    className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 disabled:scale-100 shadow-lg"
+                    className="flex-1 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 disabled:scale-100 shadow-lg"
                   >
                     {isGenerating ? (
                       <span className="flex items-center justify-center gap-2">
@@ -185,17 +184,17 @@ export default function CryptoPendulumPage() {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Generating...
+                        Generare...
                       </span>
                     ) : (
-                      "🔑 Generate Key"
+                      "🔑 Generează Cheie"
                     )}
                   </button>
 
                   <button
                     onClick={resetEntropy}
                     className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg transition-all"
-                    title="Reset entropy pool"
+                    title="Resetează pool-ul de entropie"
                   >
                     🔄
                   </button>
@@ -203,12 +202,12 @@ export default function CryptoPendulumPage() {
               </div>
             </div>
 
-            {/* Generated Keys */}
+            {/* Chei Generate */}
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-bold flex items-center gap-2">
                   <span className="text-3xl">🔐</span>
-                  Generated Keys
+                  Chei Generate
                   {generatedKeys.length > 0 && (
                     <span className="text-sm font-normal text-gray-400">
                       ({generatedKeys.length})
@@ -220,7 +219,7 @@ export default function CryptoPendulumPage() {
                     onClick={exportKeys}
                     className="text-sm bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded-lg transition-all"
                   >
-                    📥 Export
+                    📥 Exportă
                   </button>
                 )}
               </div>
@@ -234,7 +233,7 @@ export default function CryptoPendulumPage() {
               <div className="space-y-2 max-h-96 overflow-y-auto custom-scrollbar">
                 {generatedKeys.length === 0 ? (
                   <div className="text-center text-gray-500 py-8">
-                    No keys generated yet. Move the pendulum and click generate!
+                    Nu au fost generate chei încă. Mișcă pendulul și apasă generează!
                   </div>
                 ) : (
                   generatedKeys.map((key, index) => (
@@ -245,7 +244,7 @@ export default function CryptoPendulumPage() {
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1">
                           <div className="text-gray-400 text-[10px] mb-1">
-                            Key #{generatedKeys.length - index}
+                            Cheia #{generatedKeys.length - index}
                           </div>
                           <div className="text-gray-200">{formatKey(key)}</div>
                         </div>

@@ -52,7 +52,7 @@ export function DoublePendulum({
     let lastEntropyTime = 0;
     let lastTheta1 = stateRef.current.theta1;
 
-    // Mouse interaction
+    // Interacțiune mouse
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouseRef.current = {
@@ -205,7 +205,7 @@ export function DoublePendulum({
       ctx.arc(originX, originY, 6, 0, Math.PI * 2);
       ctx.fill();
 
-      // Mouse cursor effect
+      // Efect cursor mouse
       if (mouseRef.current) {
         ctx.strokeStyle = "rgba(100, 255, 200, 0.4)";
         ctx.lineWidth = 2;
@@ -228,7 +228,7 @@ export function DoublePendulum({
         onEntropy?.(entropy);
         lastEntropyTime = timestamp;
 
-        // Stats
+        // Statistici
         const energy =
           0.5 * m1 * (L1 * state.omega1) ** 2 +
           0.5 * m2 * ((L1 * state.omega1) ** 2 + (L2 * state.omega2) ** 2);
@@ -261,20 +261,20 @@ export function DoublePendulum({
         ref={canvasRef}
         width={600}
         height={500}
-        className="rounded-xl shadow-2xl bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700"
+        className="rounded-xl shadow-2xl bg-linear-to-br from-gray-900 to-gray-800 border border-gray-700"
       />
       <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm rounded-lg p-3 text-white text-sm font-mono">
         <div className="flex items-center gap-2 mb-1">
           <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span>Energy: {stats.energy.toFixed(1)}%</span>
+          <span>Energie: {stats.energy.toFixed(1)}%</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-          <span>Chaos: {stats.chaos.toFixed(1)}%</span>
+          <span>Haos: {stats.chaos.toFixed(1)}%</span>
         </div>
       </div>
       <div className="absolute bottom-4 left-4 right-4 bg-black/30 backdrop-blur-sm rounded-lg p-2 text-white text-xs text-center">
-        💡 Move mouse over pendulum • Click to perturb • Let chaos create randomness
+        💡 Mișcă mouse-ul peste pendul • Click pentru a perturba • Lasă haosul să creeze aleatorism
       </div>
     </div>
   );

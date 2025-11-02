@@ -109,35 +109,35 @@ export function LavaLamp({ seed, hue = 210, onEntropy }: LavaLampProps) {
       // Physics simulation
       for (let i = 0; i < blobs.length; i++) {
         const b = blobs[i];
-        
+
         // Temperature-based buoyancy (hot blobs rise)
         const buoyancyForce = (b.temp - 0.5) * 0.025;
         b.vy += buoyancyForce;
-        
+
         // Gravity
         b.vy += 0.008 * b.density;
-        
+
         // Horizontal drift with Perlin-like noise
         const driftNoise = noise(b.y, t * 0.5, b.drift);
         b.vx += (driftNoise - 0.5) * 0.03;
-        
+
         // Viscosity (fluid resistance)
         b.vx *= b.viscosity;
         b.vy *= 0.992;
-        
+
         // Apply velocity
         b.x += b.vx + Math.sin(t * 0.0008 + b.drift) * 0.25;
         b.y += b.vy;
-        
+
         // Organic pulsing
         b.phase += 0.015 + b.temp * 0.01;
         const pulseFactor = Math.sin(b.phase) * 0.12;
         b.r += (b.targetR * (1 + pulseFactor) - b.r) * 0.08;
-        
+
         // Temperature change (cooling/heating cycle)
         b.temp += (Math.sin(t * 0.0003 + b.drift * 2) * 0.001);
         b.temp = Math.max(0.2, Math.min(0.95, b.temp));
-        
+
         // Wall collisions with soft bounce
         const margin = 35;
         if (b.x - b.r < margin) {
@@ -148,7 +148,7 @@ export function LavaLamp({ seed, hue = 210, onEntropy }: LavaLampProps) {
           b.x = width - margin - b.r;
           b.vx = -Math.abs(b.vx) * 0.3;
         }
-        
+
         // Loop when leaving bounds
         if (b.y + b.r < -30) {
           b.y = height + b.r + 20;
@@ -174,25 +174,25 @@ export function LavaLamp({ seed, hue = 210, onEntropy }: LavaLampProps) {
           const dy = other.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           const minDist = (b.r + other.r) * 0.8;
-          
+
           if (dist < minDist && dist > 0.1) {
             const overlap = minDist - dist;
             const force = overlap * 0.008;
             const nx = dx / dist;
             const ny = dy / dist;
-            
+
             b.vx -= nx * force;
             b.vy -= ny * force;
             other.vx += nx * force;
             other.vy += ny * force;
-            
+
             // Temperature exchange
             const tempDiff = (other.temp - b.temp) * 0.01;
             b.temp += tempDiff;
             other.temp -= tempDiff;
           }
         }
-        
+
         // Collect entropy from chaotic motion
         entropyBuffer.current.push(
           Math.floor((b.x * 1000 + b.y * 1000 + b.vx * 10000 + b.vy * 10000 + t * 0.1) % 256)
@@ -201,17 +201,17 @@ export function LavaLamp({ seed, hue = 210, onEntropy }: LavaLampProps) {
 
       // Draw blobs with realistic glow
       ctx.globalCompositeOperation = "lighter";
-      
+
       for (const b of blobs) {
         const stretchX = 1 + Math.abs(b.vx) * 0.4;
         const stretchY = 1 + Math.abs(b.vy) * 0.3;
         const actualR = b.r;
-        
+
         // Core blob
         const coreGrad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, actualR * 1.2);
         const tempHue = hue + b.hueOffset + (b.temp - 0.5) * 30;
         const brightness = 40 + b.temp * 30;
-        
+
         coreGrad.addColorStop(0, `hsla(${tempHue}, 100%, ${brightness + 20}%, 1)`);
         coreGrad.addColorStop(0.3, `hsla(${tempHue}, 95%, ${brightness + 10}%, 0.9)`);
         coreGrad.addColorStop(0.6, `hsla(${tempHue - 10}, 90%, ${brightness}%, 0.6)`);
@@ -256,7 +256,7 @@ export function LavaLamp({ seed, hue = 210, onEntropy }: LavaLampProps) {
       glassHL.addColorStop(0.4, "rgba(255, 255, 255, 0.2)");
       glassHL.addColorStop(0.6, "rgba(255, 255, 255, 0.15)");
       glassHL.addColorStop(1, "rgba(255, 255, 255, 0)");
-      
+
       ctx.fillStyle = glassHL;
       ctx.beginPath();
       ctx.moveTo(width * 0.2, height * 0.1);
@@ -272,7 +272,7 @@ export function LavaLamp({ seed, hue = 210, onEntropy }: LavaLampProps) {
       baseGrad.addColorStop(0.3, "#2a2a35");
       baseGrad.addColorStop(0.7, "#1a1a25");
       baseGrad.addColorStop(1, "#0f0f18");
-      
+
       ctx.fillStyle = baseGrad;
       ctx.beginPath();
       ctx.moveTo(width * 0.28, height * 0.88);
