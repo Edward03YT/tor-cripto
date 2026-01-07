@@ -154,7 +154,7 @@ function torDecrypt(p) {
 
         {/* FOOTER */}
         <footer className="text-center text-purple-300 opacity-80 text-sm mt-8">
-          Pagina educațională – proiect Tor & Criptografie © 2024
+          FSA UPB 2025-2026 C. Andrei | B. Dan
         </footer>
       </div>
     </main>
